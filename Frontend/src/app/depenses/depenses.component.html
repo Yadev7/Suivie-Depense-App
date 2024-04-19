@@ -1,0 +1,487 @@
+<div>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-xl">{{ 'depenses' | translate }}</h2>
+        <div class="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+            <div class="flex gap-3">
+                <div>
+                    <button type="button" class="btn btn-primary" (click)="OpenAddModalForm()">{{ "newexpense" | translate }}</button>
+                </div>
+                <div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary p-2"
+                        [ngClass]="{ 'bg-primary text-white': displayType === 'list' }"
+                        (click)="displayType = 'list'"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
+                            <path d="M2 5.5L3.21429 7L7.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                opacity="0.5"
+                                d="M2 12.5L3.21429 14L7.5 10"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path d="M2 19.5L3.21429 21L7.5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M22 19L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <path opacity="0.5" d="M22 12L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M22 5L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary p-2"
+                        [ngClass]="{ 'bg-primary text-white': displayType === 'grid' }"
+                        (click)="displayType = 'grid'"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
+                            <path
+                                opacity="0.5"
+                                d="M2.5 6.5C2.5 4.61438 2.5 3.67157 3.08579 3.08579C3.67157 2.5 4.61438 2.5 6.5 2.5C8.38562 2.5 9.32843 2.5 9.91421 3.08579C10.5 3.67157 10.5 4.61438 10.5 6.5C10.5 8.38562 10.5 9.32843 9.91421 9.91421C9.32843 10.5 8.38562 10.5 6.5 10.5C4.61438 10.5 3.67157 10.5 3.08579 9.91421C2.5 9.32843 2.5 8.38562 2.5 6.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M13.5 17.5C13.5 15.6144 13.5 14.6716 14.0858 14.0858C14.6716 13.5 15.6144 13.5 17.5 13.5C19.3856 13.5 20.3284 13.5 20.9142 14.0858C21.5 14.6716 21.5 15.6144 21.5 17.5C21.5 19.3856 21.5 20.3284 20.9142 20.9142C20.3284 21.5 19.3856 21.5 17.5 21.5C15.6144 21.5 14.6716 21.5 14.0858 20.9142C13.5 20.3284 13.5 19.3856 13.5 17.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                d="M2.5 17.5C2.5 15.6144 2.5 14.6716 3.08579 14.0858C3.67157 13.5 4.61438 13.5 6.5 13.5C8.38562 13.5 9.32843 13.5 9.91421 14.0858C10.5 14.6716 10.5 15.6144 10.5 17.5C10.5 19.3856 10.5 20.3284 9.91421 20.9142C9.32843 21.5 8.38562 21.5 6.5 21.5C4.61438 21.5 3.67157 21.5 3.08579 20.9142C2.5 20.3284 2.5 19.3856 2.5 17.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                d="M13.5 6.5C13.5 4.61438 13.5 3.67157 14.0858 3.08579C14.6716 2.5 15.6144 2.5 17.5 2.5C19.3856 2.5 20.3284 2.5 20.9142 3.08579C21.5 3.67157 21.5 4.61438 21.5 6.5C21.5 8.38562 21.5 9.32843 20.9142 9.91421C20.3284 10.5 19.3856 10.5 17.5 10.5C15.6144 10.5 14.6716 10.5 14.0858 9.91421C13.5 9.32843 13.5 8.38562 13.5 6.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative">
+                <input
+                    type="text"
+                    placeholder="{{ 'searchDep' | translate }}"
+                    class="px-150 peer form-input py-2 ltr:pr-11 rtl:pl-11"
+                    [(ngModel)]="search"
+                    name="search"
+                    (ngModelChange)="searchDepenses()"
+                />
+                <div class="absolute top-1/2 -translate-y-1/2 peer-focus:text-primary ltr:right-[11px] rtl:left-[11px]">
+                    <svg class="mx-auto" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5" opacity="0.5"></circle>
+                        <path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel mt-5 overflow-hidden border-0 p-0">
+        <ng-container *ngIf="displayType === 'list'">
+            <div class="table-responsive">
+                <table class="table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{'typeDep' | translate }}</th>
+                            <th>{{'description' | translate }}</th>
+                            <th>{{'dateDep' | translate }}</th>
+                            <th>{{'montantDep' | translate }}</th>
+                            <th>{{'docJustificatif' | translate }}</th>
+                            <th>{{'audioExplicatif' | translate }}</th>
+                            <th class="!text-center">{{'actions' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let depense of filterdDepensesList" key="depense.id">
+                            <tr>
+                                <td class="whitespace-nowrap">{{ depense.typeDep }}</td>
+                                <td class="whitespace-nowrap">{{ depense.description }}</td>
+                                <td class="whitespace-nowrap">{{ depense.dateDep }}</td>
+                                <td class="whitespace-nowrap">{{ depense.montant }} DH</td>
+                                <td>
+                                    <a [href]="depense | urlFile" target="_blank"> {{ 'opendoc' | translate }} </a>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <a [href]="depense | urlAudio" target="_blank"> {{ 'openaudio' | translate }} </a>
+                                </td>
+
+                                <td>
+                                    <div class="flex items-center justify-center gap-4">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" (click)="openEditModal(depense)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                                <path
+                                                    d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="showDialogDeleteForm(depense)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </div>
+
+    <ng-container *ngIf="displayType === 'grid'">
+        <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            <ng-container *ngFor="let depense of filterdDepensesList" key="depense.id">
+                <div class="relative overflow-hidden rounded-md bg-white text-center shadow dark:bg-[#1c232f]">
+                    <div class="rounded-t-md bg-white/40 bg-[url('/assets/images/notification-bg.png')] bg-cover bg-center p-6 pb-0">
+                        <ng-container *ngIf="depense.path">
+                            <img class="mx-auto max-h-40 w-4/5 object-contain" [src]="'/assets/images/' + depense.path" />
+                        </ng-container>
+                    </div>
+                    <div class="relative -mt-10 px-6 pb-24">
+                        <div class="rounded-md mt-10 bg-white px-2 py-4 shadow-md dark:bg-gray-900">
+                            <div class="text-xl">{{depense.typeDep}}</div>
+                            <div class="text-white-dark">{{depense.dateDep}}</div>
+                            <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+                                <div class="flex-auto">
+                                    <div class="text-info">{{ depense.description }}</div>
+                                    <div class="text-info">{{ depense.montant }} DH</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 mt-6 flex w-full gap-4 p-6 ltr:left-0 rtl:right-0">
+                        <button type="button" class="btn btn-outline-primary w-1/2" (click)="openEditModal(depense)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                <path
+                                    d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"
+                                />
+                            </svg>
+                        </button>
+                        <!-- <button type="button" class="btn btn-outline-primary w-1/2" (click)="showDialogEditForm(depense)">{{"edit" | translate }}</button> -->
+                        <button type="button" class="btn btn-outline-danger w-1/2" (click)="showDialogDeleteForm(depense)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <!--delete depense-->
+    <modal #deleteDepenseModal>
+        <ng-template #modalHeader> <div>Confirmation</div> </ng-template>
+        <ng-template #modalBody>
+            <h2>Vous etes sur de supprimer cette depense ?</h2>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="deleteDepenseModal.close()" class="btn btn-outline-secondary">{{ 'cancel' | translate }}</button>
+            <button type="button" (click)="RemoveDepense(depense); deleteDepenseModal.close()" class="btn btn-danger ltr:ml-4 rtl:mr-4">
+                {{ 'delete' | translate }}
+            </button>
+        </ng-template>
+    </modal>
+
+    <!--edit depense-->
+    <modal #editDepensetModal class="no-footer">
+        <ng-template #modalHeader>
+            <div class="!font-medium">
+                <!-- {{ params.controls['id'].value ? 'Edit Depense' : 'Ajout Depense' }} -->
+                {{ 'edit' | translate }} {{ 'depense' | translate }}
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <form #clientAddForm="ngForm" (ngSubmit)="updateDepense(depense)">
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div>
+                        <label for="typeDep" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'typeDep' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="typeDep"
+                            name="typeDep"
+                            [(ngModel)]="depense.typeDep"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <div>
+                        <label for="projet_ref" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            Reference : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="projet_ref"
+                            name="projet_ref"
+                            [(ngModel)]="depense.projet_ref"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                            [min]="todayDate()"
+                        />
+                    </div>
+
+                    <div>
+                        <label for="nomProject" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'dateDep' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="date"
+                            id="dateDep"
+                            name="dateDep"
+                            [(ngModel)]="depense.dateDep"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                            [min]="todayDate()"
+                        />
+                    </div>
+
+                    <div>
+                        <label for="description" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'description' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="depense.description"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <div>
+                        <label for="montant" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'montantDep' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="number"
+                            id="montant"
+                            name="montant"
+                            [(ngModel)]="depense.montant"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <div>
+                        <label for="docJustificatif" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'docJustificatif' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="docJustificatif"
+                            name="docJustificatif"
+                            [(ngModel)]="depense.docJustificatif"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                   <div>
+                        <label for="audioExplicatif" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'audioExplicatif' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="audioExplicatif"
+                            name="audioExplicatif"
+                            [(ngModel)]="depense.audioExplicatif"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <button
+                        class="font-large w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
+                        (click)="updateDepense(depense)"
+                    >
+                        {{ 'edit' | translate }}
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+    </modal>
+
+    <!--add depense-->
+    <modal #addDepensetModal class="no-footer">
+        <ng-template #modalHeader>
+            <div class="!font-medium">
+                <!-- {{ params.controls['id'].value ? 'Edit Depense' : 'Ajout Depense' }} -->
+                {{ 'addDep' | translate }}
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <form #clientAddForm="ngForm" (ngSubmit)="OnSubmit()" enctype="multipart/form-data" multiple>
+                <div class="grid gap-6 md:grid-cols-2">
+
+                    <div>
+                        <label for="depenses" class="mb-2 block text-sm font-medium text-white-900 dark:text-black ">Choisir Project</label>
+                        <select
+                          id="projet_ref"
+                          name="projet_ref"
+                          [(ngModel)]="depense.projet_ref"
+                          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-black dark:placeholder-white dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                          <option *ngFor="let p of projects" >{{ p.nomProject }}</option>
+                        </select>
+                      </div>
+
+                    <div>
+                        <label for="typeDep" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'typeDep' | translate }} : <span class="required">*</span>
+                        </label>
+                        <select
+                            id="typeDep"
+                            name="typeDep"
+                            [(ngModel)]="depense.typeDep"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                            <option value="Les frais de déplacement">Les frais de déplacement</option>
+                            <option value="Les frais de logistique">Les frais de logistique</option>
+                            <option value="Coûts indirects">Coûts indirects</option>
+                            <option value="Charges sociales">Charges sociales</option>
+                            <option value="Charges d'exploitation">Charges d'exploitation</option>
+                            <option value="Paiement fiscalité">Fiscalité et autres charges financières</option>
+                            <option value="Charges de travail">Charges de travail</option>
+                            <option value="Autres charges">Autres charges</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="modePaiement" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'modePaiement' | translate }} : <span class="required">*</span>
+                        </label>
+                        <select
+                            id="modePaiement"
+                            name="modePaiement"
+                            [(ngModel)]="depense.modePaiement"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                            <option value="Chèque">Chèque</option>
+                            <option value="Virement">Virement</option>
+                            <option value="Paiement en ligne">Paiement en ligne</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="nomProject" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'dateDep' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="date"
+                            id="dateDep"
+                            name="dateDep"
+                            [(ngModel)]="currentDate"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                            [min]="currentDate"
+                        />
+                    </div>
+
+                    <div>
+                        <label for="description" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'description' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="text"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="depense.description"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <div>
+                        <label for="montant" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'montantDep' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="number"
+                            id="montant"
+                            name="montant"
+                            [(ngModel)]="depense.montant"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                        />
+                    </div>
+
+                    <div>
+                        <label for="docJustificatif" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'docJustificatif' | translate }} : <span class="required">*</span></label
+                        >
+                        <!-- <input type="file" multiple (change)="onFileSelected($event)" accept="image/*" /> -->
+                        <input
+                            type="file"
+                            id="docJustificatif"
+                            name="docJustificatif"
+                            [src]="depense.docJustificatif"
+                            (change)="onFileSelected($event)"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                            multiple
+                        />
+                    </div>
+
+
+                     <div>
+                        <label for="audioExplicatif" class="font-large mb-2 block text-sm text-gray-900 dark:text-white">
+                            {{ 'audioExplicatif' | translate }} : <span class="required">*</span></label
+                        >
+                        <input
+                            type="file"
+                            id="audioExplicatif"
+                            name="audioExplicatif"
+                            [src]="depense.audioExplicatif"
+                            (change)="onAudioSelected($event)"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder=""
+                            accept="audio/mpeg"
+                            multiple
+                        />
+                    </div>
+
+                    <div class="audio-controls-container">
+                        <div class="row justify-content-center pt-2 pb-2">
+                            <button title="Click here to start recording action" class="btn-mic w-auto" (click)="startRecording()"
+                                *ngIf="!isRecording" style="margin-right: 3px;">
+                                <img src="../../assets/images/mic.png" />
+                            </button>
+                            <button title="Click here to stop recording" class="btn-stop w-auto" (click)="stopRecording()" *ngIf="isRecording"
+                                style="margin-right: 0px;">
+                                <img src="../../assets/images/stop.png" />
+                            </button>
+                        </div>
+                        <audio class="block w-full rounded-lg" #audioPlayer controls></audio>
+                        <a class="btn-download w-auto" *ngIf="audioURL" [href]="audioURL" download="recorded_audio.wav"><img src="../../assets/images/download.png" /></a>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="font-large w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
+                    >
+                        {{ 'add' | translate }}
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+    </modal>
+</div>

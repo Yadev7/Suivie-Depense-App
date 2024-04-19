@@ -1,0 +1,26 @@
+<div class="flex h-screen w-screen">
+    <div class="auth-bg hidden flex-1 items-center justify-center bg-primary-500 bg-cover lg:flex">
+      <div class="max-w-2xl space-y-4 p-8 text-center text-black">
+   <img src="/src/assets/images/logo.png" alt="dashboard widget" />
+        <h1 class="text-4xl font-bold">{{ appJson.displayName }}</h1>
+        <p class="text-md text-left">
+          Application de gestion des comptes clients
+        </p>
+        <p class="text-md text-left">et stagiaires pour NewDev</p>
+      </div>
+    </div>
+    <div class="flex flex-1 items-center justify-center bg-white dark:bg-night-700">
+      <div class="max-w-md overflow-y-auto px-4 sm:w-[500px]">
+        <!-- logo -->
+        <div class="flex items-center justify-center">
+          <!-- <img routerLink="/" src="assets/icons/logo.png" class="h-10 w-10" alt="MedManager"> -->
+          <b class="text-md pl-3 font-bold text-gray-700 dark:text-white">  {{ appJson.displayName }} </b>
+        </div>
+        <!-- Route -->
+        <!-- <router-outlet></router-outlet>  -->
+
+      </div>
+
+    </div>
+
+  </div>
